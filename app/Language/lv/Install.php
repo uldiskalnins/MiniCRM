@@ -1,0 +1,27 @@
+<?php
+return [
+	'install' => 'Uzstādīšana',
+	'noDbSettings' => 'Šķiet, ka nav norādīti datu bāzes uzstādījumi. Datu bāzes uzstādījumus jānorāda .env failā vietnes saknes direktorijā vai app/Config/Database.php failā.',
+	'noDbConnectionError' => 'Šķiet, ka sistēma nevar pieslēgties datu bāzei. Iespejams, ka datu bāzes serveris ir offline vai nav pareizi datu bāzes uzstādījumi.',
+	'noWritablePath' => 'Šķiet, ka sistēma nevar izveidot failus. Pārbaudiet failu sistēmas pieejas atļaujas.',
+	'tryAgain' => 'Mēģināt vēlreiz',
+	'adminPass' => 'Admina parole',
+	'passRequirements' => 'Prasības parolei',
+	'passReqLL' => 'Vismaz 1 mazais burts',
+	'passReqUL' => 'Vismaz 1 lielais burts',
+	'passReqN' => 'Vismaz 1 skaitlis',
+	'passReqSS' => 'Vismaz 1 speciālais simbols',
+	'passReqSL' => 'Vismaz 8 simboli parolē',
+	'repeatAdminPass' => 'Atkārtot admina paroli',
+	'adminEmail' => 'Admina e-pasts',
+	'create' => 'Izveidot',
+	'invalidEmail' => 'E-pasta adrese nav derīga',
+	'invalidPass1' => 'Parole ir par īsu',
+	'invalidPass2' => 'Atkārtotā parole nesakrīt ar pirmo',
+	'invalidName' => 'Vārds nav norādīts vai ir pārāk garš',
+	'invalidSurname' => 'Uzvārds nav norādīts vai ir pārāk garšs',
+	'installComplete' => 'Instalācija pabeigta',
+	'error' => 'Kļūda',
+	'' => '',
+
+];
