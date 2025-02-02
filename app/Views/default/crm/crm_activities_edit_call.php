@@ -20,7 +20,7 @@
       <li class="breadcrumb-item active"><?= lang('Crm.edit') ?></li>
     </ul>
 
-    <form action="<?= base_url('crm/activities/calls/save/') ?>" id="addForm" method="post">
+    <form action="<?= base_url('crm/activities/calls/save') ?>" id="addForm" method="post">
 
 
       <div class="row pl-3 pr-3 pb-3 ">

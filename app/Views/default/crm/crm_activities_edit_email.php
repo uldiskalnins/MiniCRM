@@ -20,7 +20,7 @@
       <li class="breadcrumb-item active"><?= lang('Crm.edit'); ?></li>
     </ul>
 
-    <form action="<?= base_url('crm/activities/emails/save/') ?>" id="addForm" method="post" enctype="multipart/form-data">
+    <form action="<?= base_url('crm/activities/emails/save') ?>" id="addForm" method="post" enctype="multipart/form-data">
 
 
       <div class="row pl-3 pr-3 pb-3 ">

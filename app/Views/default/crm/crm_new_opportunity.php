@@ -13,7 +13,7 @@
       <li class="breadcrumb-item active"><?= lang('Crm.newOpportunity'); ?></li>
     </ul>
 
-    <form action="<?= base_url('crm/opportunities/save/'); ?>" id="addForm" method="post">
+    <form action="<?= base_url('crm/opportunities/save'); ?>" id="addForm" method="post">
 
       <?= view('default/crm/crm_message_box.php') ?>
 
