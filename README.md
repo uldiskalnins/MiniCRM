@@ -1,4 +1,3 @@
-Jā, protams! Šeit ir abi teksti, formatēti GitHub README formātā:
 
 ## MiniCRM
 
