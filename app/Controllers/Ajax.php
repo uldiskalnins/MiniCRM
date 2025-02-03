@@ -293,11 +293,8 @@ class Ajax extends BaseController
         switch ($setting) {
             case 1:
 
-                if ($getValue == 1) {
-                    $settingValue = 1;
-                } else {
-                    $settingValue = 0;
-                }
+                if ($getValue == 1) {$settingValue = 1;}
+                else {$settingValue = 0;}
 
                 $settingsModel->updateSettingByName('allowToSeeOtherUsersRecords', $settingValue) ? exit('1') : exit('0');
 
@@ -367,8 +364,8 @@ class Ajax extends BaseController
                     $response['message'] =  \Config\Services::validation()->listErrors('my_list');
                 }
 
-                header('Content-Type: application/json');
-                exit(json_encode($response));
+
+                return $this->response->setJSON($response);
 
                 break;
             case 5:
@@ -389,15 +386,12 @@ class Ajax extends BaseController
                     }
                 }
 
-
                 $data = array(
                     'currencies' => $currencies,
                     'defaultCurrency' => $settingsModel->defaultCurrency
                 );
 
-
-                header('Content-Type: application/json');
-                echo json_encode($data);
+                return $this->response->setJSON($data);
 
                 break;
             default:
@@ -409,9 +403,8 @@ class Ajax extends BaseController
     {
 
         //izlabot iespēju, kad jebkurš lietotājs var komentēt jebkuru ierakstu
-        if (!$this->request->isAJAX()) {
-            exit();
-        }
+        if (!$this->request->isAJAX()) {exit();}
+
         $response = ['success' => false, 'message' => $this->request->getPost('note')];
 
 
@@ -444,16 +437,14 @@ class Ajax extends BaseController
         }
 
 
-
         return $this->response->setJSON($response);
     }
 
     public function checkLang($value)
     {
-        if (!$this->request->isAJAX()) {
-            exit();
-        }
-        if (empty($value)) {
+        if (!$this->request->isAJAX()) {exit();}
+        if (empty($value)) 
+        {
             checkLanguage();
             exit();
         }
@@ -463,9 +454,7 @@ class Ajax extends BaseController
 
     public function getHomeContentLists($type = 0)
     {
-        if (!$this->request->isAJAX()) {
-            exit();
-        }
+        if (!$this->request->isAJAX()) {exit();}
 
         $callsModel = new \App\Models\CallsModel();
         $meetingsModel = new \App\Models\MeetingsModel();
