@@ -87,4 +87,3 @@ Before the first launch, you must first make some changes to the configuration f
 
     and then open in your browser: `http://localhost:8080/`
 
-Kā redzams, esmu izmantojis Markdown sintaksi, lai formatētu tekstu virsrakstos, koda blokos un citos elementos, kas ir piemērots GitHub README failiem.
