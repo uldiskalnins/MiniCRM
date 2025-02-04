@@ -21,14 +21,9 @@ Pirms pirmās palaišanas vispirms ir jāveic dažas izmaiņas konfigurācijas f
     database.default.port = 3306
     ```
 
-2.  Šajā pašā failā norādiet, ka sistēma darbosies izstrādes režīmā, jo tas atvieglos kļūdu izķeršanu.
-    Piemērs:
+2.  Lai atvieglotu kļūdu izķeršanu sistēma pēc noklusējuma darbosies izstrādes režīmā
 
-    ```
-    CI_ENVIRONMENT = development
-    ```
-
-    Kad sistēma tiks nodota pilnvērtīgai darbība šo parametru ir jānomaina uz:
+    Kad sistēma tiks nodota pilnvērtīgai darbība, būs jāatkomentē šis uzstādījums:
 
     ```
     CI_ENVIRONMENT = production
@@ -41,49 +36,56 @@ Pirms pirmās palaišanas vispirms ir jāveic dažas izmaiņas konfigurācijas f
     ```
 
     un tad pārlūkā atveriet: `http://localhost:8080/`
+    
+
+ 4. Lai darbinātu sistēmu uz cita servera būs jāmaina arī `/app/Config/App.php` faila mainīgais:
+ 
+    ```
+    public string $baseURL = 'http://localhost:8080/';  //jāizmaina uz jums nepieciešamo
+    ```
+
 
 ---
 
-## MiniCRM (English)
+## MiniCRM
 
-MiniCRM is a CRM system built on the Codeigniter4 (4.4) framework for self-employed individuals and small businesses. The system requires PHP 7.4+ and Mysql (5.1+) or MariaDB.
-PHP must have the intl and mbstring extensions enabled.
+MiniCRM is a CRM system built on the Codeigniter4 (4.4) framework, designed for self-employed individuals and small businesses. The system requires PHP 7.4+ and MySQL (5.1+) or MariaDB. The PHP extensions `intl` and `mbstring` must be enabled.
 
 ### Installation
 
-Before the first launch, you must first make some changes to the configuration files.
+Before the first launch, you need to make some changes in the configuration files.
 
-1.  Rename the `env` file in the system root to `.env` and uncomment the configuration section responsible for the database and enter your database details.
-    Example:
+1. Rename the `env` file located in the system's root directory to `.env`, uncomment the database configuration section, and enter your database details.
+   Example:
 
-    ```
-    database.default.hostname = localhost
-    database.default.database = ci4
-    database.default.username = root
-    database.default.password = root
-    database.default.DBDriver = MySQLi
-    database.default.DBPrefix =
-    database.default.port = 3306
-    ```
+   ```
+   database.default.hostname = localhost
+   database.default.database = ci4
+   database.default.username = root
+   database.default.password = root
+   database.default.DBDriver = MySQLi
+   database.default.DBPrefix =
+   database.default.port = 3306
+   ```
 
-2.  In the same file, specify that the system will operate in development mode, as this will make it easier to catch errors.
-    Example:
+2. To make it easier to catch errors, the system will run in development mode by default.
 
-    ```
-    CI_ENVIRONMENT = development
-    ```
+   When the system is ready for production, you will need to uncomment this setting:
 
-    When the system is put into production, this parameter must be changed to:
+   ```
+   CI_ENVIRONMENT = production
+   ```
 
-    ```
-    CI_ENVIRONMENT = production
-    ```
+3. To run the system with the built-in PHP web server, go to the system's root directory in the command line and execute the command:
 
-3.  To run the system with the built-in PHP web server, go to the system root directory in the command line and execute the command:
+   ```
+   php spark serve
+   ```
 
-    ```
-    php spark serve
-    ```
+   Then open `http://localhost:8080/` in your browser.
 
-    and then open in your browser: `http://localhost:8080/`
+4. To run the system on a different server, you will also need to change the `baseURL` variable in the `/app/Config/App.php` file:
 
+   ```
+   public string $baseURL = 'http://localhost:8080/'; // Change to your required URL
+   ```
