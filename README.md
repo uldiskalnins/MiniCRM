@@ -1,8 +1,8 @@
 
 ## MiniCRM
 
-MiniCRM ir uz Codeigniter4 (4.4) ietvara bāzes veidota CRM sistēma pašnodarbinātajiem un nelieliem uzņēmumiem. Sistēmas darbībai ir nepieciešams PHP 7.4+ un Mysql (5.1+) vai MariaDB.
-PHP ir jābūt iespējotiem intl un mbstring paplašinājumiem.
+MiniCRM ir uz Codeigniter4 (4.4.8) ietvara bāzes veidota CRM sistēma pašnodarbinātajiem un nelieliem uzņēmumiem. Sistēmas darbībai ir nepieciešams PHP 7.4+ un Mysql (5.1+) vai MariaDB.
+PHP ir jābūt iespējotiem intl, mbstring un json paplašinājumiem.
 
 ### Uzstādīšana
 
@@ -49,7 +49,7 @@ Pirms pirmās palaišanas vispirms ir jāveic dažas izmaiņas konfigurācijas f
 
 ## MiniCRM
 
-MiniCRM is a CRM system built on the Codeigniter4 (4.4) framework, designed for self-employed individuals and small businesses. The system requires PHP 7.4+ and MySQL (5.1+) or MariaDB. The PHP extensions `intl` and `mbstring` must be enabled.
+MiniCRM is a CRM system built on the Codeigniter4 (4.4.8) framework, designed for self-employed individuals and small businesses. The system requires PHP 7.4+ and MySQL (5.1+) or MariaDB. The PHP extensions `intl`, `mbstring` and `json` must be enabled.
 
 ### Installation
 
