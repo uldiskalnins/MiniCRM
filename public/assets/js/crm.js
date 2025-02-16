@@ -320,33 +320,42 @@ $("#findUser").focusout(function ()
 });
 
 
-document.getElementById('historyNotesForm').addEventListener('submit', function(e) {
-  e.preventDefault();
 
-  var responseDiv = document.getElementById('historyNoteResponse');
-  var formData = new FormData();
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.getElementById('historyNotesForm');
+  
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-  formData.append('note', document.getElementById('historyNote').value);
+      var responseDiv = document.getElementById('historyNoteResponse');
+      var formData = new FormData();
 
-  fetch(historyNotePostUrl, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        location.reload();
-      } else {
-        responseDiv.innerHTML = '<p style="color: red;">' + data.message + '</p>';
-      }
-    })
-    .catch(error => {
-      responseDiv.innerHTML = '<p style="color: red;">' + error.message + '</p>';
+      formData.append('note', document.getElementById('historyNote').value);
+
+      fetch(historyNotePostUrl, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            location.reload();
+          } else {
+            responseDiv.innerHTML = '<p style="color: red;">' + data.message + '</p>';
+          }
+        })
+        .catch(error => {
+          responseDiv.innerHTML = '<p style="color: red;">' + error.message + '</p>';
+        });
     });
+  }
 });
+
+
 
 function removeFile(id) 
 {
@@ -395,4 +404,154 @@ function formatDateAndTime(datetime, type = 0) {
     console.error(error);
     return datetime;
   }
+}
+
+/// home screen
+function loadHomePlannedCalls() {
+
+  $.ajax({
+    url: getHomeContentUrl + 0,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    method: "GET",
+    data: {
+      offset: callsOffset
+    },
+    dataType: "json",
+    success: function(response) {
+      if (response.list.length > 0) {
+        response.list.forEach(li => {
+          $('#homePlannedFutureCallsList').append(
+            `<div class="pb-1">
+              <span> <a  class="font-weight-normal" href="${callUrlBase}${li.id}">${li.title}</a></span><br>
+              <span class="text-muted">${formatDateAndTime(li.start_date)}</span>
+            </div>`);
+        });
+
+        callsOffset += response.list.length;
+
+        if (callsOffset >= response.total) {
+          $('#loadMorePlannedCalls').addClass("d-none");
+        } else {
+          $('#loadMorePlannedCalls').removeClass("d-none");
+        }
+      } else {
+        $('#loadMorePlannedCalls').addClass("d-none");
+      }
+    }
+  });
+}
+
+function loadHomePlannedMeetings() {
+
+  $.ajax({
+    url: getHomeContentUrl + 1,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    method: "GET",
+    data: {
+      offset: meetingsOffset
+    },
+    dataType: "json",
+    success: function(response) {
+      if (response.list.length > 0) {
+
+        response.list.forEach(li => {
+          $('#homePlannedFutureMeetingsList').append(
+            `<div class="pb-1">
+              <span> <a  class="font-weight-normal" href="${meetingUrlBase}${li.id}">${li.title}</a></span><br>
+              <span class="text-muted">${formatDateAndTime(li.start_date)}</span>
+            </div>`);
+        });
+
+        meetingsOffset += response.list.length;
+
+        if (meetingsOffset >= response.total) {
+          $('#loadMorePlannedMeetings').addClass("d-none");
+        } else {
+          $('#loadMorePlannedMeetings').removeClass("d-none");
+        }
+      } else {
+        $('#loadMorePlannedMeetings').addClass("d-none");
+      }
+    }
+  });
+}
+
+
+function loadHomeActiveTasks() {
+
+  $.ajax({
+    url: getHomeContentUrl + 2,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    method: "GET",
+    data: {
+      offset: tasksOffset
+    },
+    dataType: "json",
+    success: function(response) {
+      if (response.list.length > 0) {
+
+        response.list.forEach(li => {
+          $('#homeAciveTasksList').append(
+            `<div class="pb-1">
+            <span> <a  class="font-weight-normal" href="${tasksUrlBase}${li.id}">${li.title}</a></span><br>
+            <span class="text-muted ">${tasksStatus[li.status]}</span>
+            </div>`);
+        });
+
+        tasksOffset += response.list.length;
+
+        if (tasksOffset >= response.total) {
+          $('#loadMoreActiveTasks').addClass("d-none");
+        } else {
+          $('#loadMoreActiveTasks').removeClass("d-none");
+        }
+      } else {
+        $('#loadMoreActiveTasks').addClass("d-none");
+      }
+    }
+  });
+}
+
+
+function loadHomeActiveOpportunities() {
+
+  $.ajax({
+    url: getHomeContentUrl + 3,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    method: "GET",
+    data: {
+      offset: opportunityOffset
+    },
+    dataType: "json",
+    success: function(response) {
+      if (response.list.length > 0) {
+
+        response.list.forEach(li => {
+          $('#homeActiveOpportunitiesList').append(
+            `<div class="pb-1">
+      <span> <a  class="font-weight-normal" href="${opportunitiesUrlBase}${li.id}">${li.title}</a></span><br>
+      <span class="text-muted ">${opportunitiesStage[li.stage]}</span>
+      </div>`);
+        });
+
+        opportunityOffset += response.list.length;
+
+        if (opportunityOffset >= response.total) {
+          $('#loadMoreActiveOpportunities').addClass("d-none");
+        } else {
+          $('#loadMoreActiveOpportunities').removeClass("d-none");
+        }
+      } else {
+        $('#loadMoreActiveOpportunitiess').addClass("d-none");
+      }
+    }
+  });
 }

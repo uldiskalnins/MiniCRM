@@ -1,3 +1,6 @@
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
 </head>
 
 <body class="bg-light text-dark">
@@ -26,6 +29,10 @@
 
       <?= view_cell('\App\Controllers\crm\Viewcells::homeNearestPersonsBirthdaysList', ['userId' => session()->get('userId')]) ?>
 
+      <div class="col-sm-12 col-md-6 col-lg-4 dragparent" id="pmty1"></div>
+      <div class="col-sm-12 col-md-6 col-lg-4 dragparent" id="pmty2"></div>
+      <div class="col-sm-12 col-md-6 col-lg-4 dragparent" id="pmty3"></div>
+      <div class="col-sm-12 col-md-6 col-lg-4 dragparent" id="pmty4"></div>
 
     </div>
   </div>
@@ -61,156 +68,51 @@
       $('#loadMoreActiveOpportunities').on('click', function() {loadHomeActiveOpportunities();})
 
 
+
+      // Atjauno child div atrašanās vietas no localStorage
+      $(".dragchild").each(function() {
+        var childId = $(this).attr("id");
+        var savedParentId = localStorage.getItem("dragchild-" + childId);
+        if (savedParentId && $("#" + savedParentId).length) {
+          $("#" + savedParentId).append($(this));
+        }
+      });
+
+      $(".dragchild").draggable({
+        revert: "invalid",
+        start: function(event, ui) {
+          $(this).data("dragparent", $(this).parent());
+          $(this).css("z-index", 1000);
+        },
+        stop: function(event, ui) {
+          $(this).css("z-index", "auto");
+        }
+      });
+
+      $(".dragparent").droppable({
+        accept: ".dragchild",
+        drop: function(event, ui) {
+          var draggedChild = ui.draggable;
+          var previousParent = draggedChild.data("dragparent");
+
+          // Ja jaunajā parent jau ir child, tas atgriežas iepriekšējā parent
+          var existingChild = $(this).find(".dragchild");
+          if (existingChild.length) {
+            previousParent.append(existingChild);
+            localStorage.setItem("dragchild-" + existingChild.attr("id"), previousParent.attr("id"));
+          }
+
+          // Ievieto child jaunajā parent
+          $(this).append(draggedChild);
+          draggedChild.css({top: 0, left: 0});
+
+          // Saglabā atrašanās vietu localStorage
+          localStorage.setItem("dragchild-" + draggedChild.attr("id"), $(this).attr("id"));
+        }
+      });
+
     });
 
-    function loadHomePlannedCalls() {
-
-      $.ajax({
-        url: getHomeContentUrl + 0,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        method: "GET",
-        data: {
-          offset: callsOffset
-        },
-        dataType: "json",
-        success: function(response) {
-          if (response.list.length > 0) {
-            response.list.forEach(li => {
-              $('#homePlannedFutureCallsList').append(
-                `<div class="pb-1">
-                  <span> <a  class="font-weight-normal" href="${callUrlBase}${li.id}">${li.title}</a></span><br>
-                  <span class="text-muted">${formatDateAndTime(li.start_date)}</span>
-                </div>`);
-            });
-
-            callsOffset += response.list.length;
-
-            if (callsOffset >= response.total) {
-              $('#loadMorePlannedCalls').addClass("d-none");
-            } else {
-              $('#loadMorePlannedCalls').removeClass("d-none");
-            }
-          } else {
-            $('#loadMorePlannedCalls').addClass("d-none");
-          }
-        }
-      });
-    }
-
-    function loadHomePlannedMeetings() {
-
-      $.ajax({
-        url: getHomeContentUrl + 1,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        method: "GET",
-        data: {
-          offset: meetingsOffset
-        },
-        dataType: "json",
-        success: function(response) {
-          if (response.list.length > 0) {
-
-            response.list.forEach(li => {
-              $('#homePlannedFutureMeetingsList').append(
-                `<div class="pb-1">
-                  <span> <a  class="font-weight-normal" href="${meetingUrlBase}${li.id}">${li.title}</a></span><br>
-                  <span class="text-muted">${formatDateAndTime(li.start_date)}</span>
-                </div>`);
-            });
-
-            meetingsOffset += response.list.length;
-
-            if (meetingsOffset >= response.total) {
-              $('#loadMorePlannedMeetings').addClass("d-none");
-            } else {
-              $('#loadMorePlannedMeetings').removeClass("d-none");
-            }
-          } else {
-            $('#loadMorePlannedMeetings').addClass("d-none");
-          }
-        }
-      });
-    }
-
-
-    function loadHomeActiveTasks() {
-
-      $.ajax({
-        url: getHomeContentUrl + 2,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        method: "GET",
-        data: {
-          offset: tasksOffset
-        },
-        dataType: "json",
-        success: function(response) {
-          if (response.list.length > 0) {
-
-            response.list.forEach(li => {
-              $('#homeAciveTasksList').append(
-                `<div class="pb-1">
-                <span> <a  class="font-weight-normal" href="${tasksUrlBase}${li.id}">${li.title}</a></span><br>
-                <span class="text-muted ">${tasksStatus[li.status]}</span>
-                </div>`);
-            });
-
-            tasksOffset += response.list.length;
-
-            if (tasksOffset >= response.total) {
-              $('#loadMoreActiveTasks').addClass("d-none");
-            } else {
-              $('#loadMoreActiveTasks').removeClass("d-none");
-            }
-          } else {
-            $('#loadMoreActiveTasks').addClass("d-none");
-          }
-        }
-      });
-    }
-
-
-    function loadHomeActiveOpportunities() {
-
-      $.ajax({
-        url: getHomeContentUrl + 3,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        method: "GET",
-        data: {
-          offset: opportunityOffset
-        },
-        dataType: "json",
-        success: function(response) {
-          if (response.list.length > 0) {
-
-            response.list.forEach(li => {
-              $('#homeActiveOpportunitiesList').append(
-                `<div class="pb-1">
-          <span> <a  class="font-weight-normal" href="${opportunitiesUrlBase}${li.id}">${li.title}</a></span><br>
-          <span class="text-muted ">${opportunitiesStage[li.stage]}</span>
-          </div>`);
-            });
-
-            opportunityOffset += response.list.length;
-
-            if (opportunityOffset >= response.total) {
-              $('#loadMoreActiveOpportunities').addClass("d-none");
-            } else {
-              $('#loadMoreActiveOpportunities').removeClass("d-none");
-            }
-          } else {
-            $('#loadMoreActiveOpportunitiess').addClass("d-none");
-          }
-        }
-      });
-    }
 
 
   </script>
