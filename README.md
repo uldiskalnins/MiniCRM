@@ -4,6 +4,9 @@
 MiniCRM ir uz Codeigniter4 (4.4.8) ietvara bāzes veidota CRM sistēma pašnodarbinātajiem un nelieliem uzņēmumiem. Sistēmas darbībai ir nepieciešams PHP 7.4+ un Mysql (5.1+) vai MariaDB.
 PHP ir jābūt iespējotiem intl, mbstring un json paplašinājumiem.
 
+
+![MiniCRM](https://i.imgur.com/z3PCceJ.jpg)
+
 ### Uzstādīšana
 
 Pirms pirmās palaišanas vispirms ir jāveic dažas izmaiņas konfigurācijas failos.
@@ -21,9 +24,12 @@ Pirms pirmās palaišanas vispirms ir jāveic dažas izmaiņas konfigurācijas f
     database.default.port = 3306
     ```
 
-2.  Lai atvieglotu kļūdu izķeršanu sistēma pēc noklusējuma darbosies izstrādes režīmā
+2.  Šajā pašā failā norādiet, ka sistēma darbosies izstrādes režīmā, jo tas atvieglos kļūdu izķeršanu. 
 
-    Kad sistēma tiks nodota pilnvērtīgai darbība, būs jāatkomentē šis uzstādījums:
+    ```
+    CI_ENVIRONMENT = development
+    ```
+    Kad sistēma tiks nodota pilnvērtīgai darbība, šis uzstādījums ir jānomaina uz:
 
     ```
     CI_ENVIRONMENT = production
@@ -68,9 +74,17 @@ Before the first launch, you need to make some changes in the configuration file
    database.default.port = 3306
    ```
 
-2. To make it easier to catch errors, the system will run in development mode by default.
 
-   When the system is ready for production, you will need to uncomment this setting:
+
+2. In the same file, specify that the system will run in development mode, as this will make debugging easier:
+
+   ```
+   CI_ENVIRONMENT = development
+   ```
+
+
+
+   When the system is ready for production, this setting should be changed to:
 
    ```
    CI_ENVIRONMENT = production
